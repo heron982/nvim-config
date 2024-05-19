@@ -46,6 +46,9 @@ autocmd BufWritePre *.js,*.ts,*.tsx CocCommand eslint.executeAutoFix
 
 inoremap <silent><expr> <c-space> coc#refresh()
 
+" Add `:OR` command for organize imports of the current buffer
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
 lua << EOF
 require('Comment').setup()
 EOF
@@ -218,6 +221,11 @@ function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 inoremap <silent><expr> <Tab>
       \ coc#pum#visible() ? coc#pum#next(1) :

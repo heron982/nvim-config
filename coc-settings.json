@@ -1,0 +1,5 @@
+{
+  "tsserver.enable": true,
+  "typescript.updateImportsOnFileMove.enable": true,
+  "javascript.updateImportsOnFileMove.enable": true
+}
