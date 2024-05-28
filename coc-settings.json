@@ -1,5 +1,7 @@
 {
   "tsserver.enable": true,
-  "typescript.updateImportsOnFileMove.enable": true,
-  "javascript.updateImportsOnFileMove.enable": true
+  "eslint.autoFixOnSave": true,
+  "eslint.format.enable": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
 }

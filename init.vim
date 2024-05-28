@@ -23,6 +23,7 @@ let g:airline_powerline_fonts = 1
 
 call plug#begin()
  Plug 'tpope/vim-fugitive',
+ Plug 'gbprod/cutlass.nvim',
  Plug 'nvim-lua/plenary.nvim',
  Plug 'kyazdani42/nvim-tree.lua',
  Plug 'nvim-pack/nvim-spectre',
@@ -46,13 +47,23 @@ autocmd BufWritePre *.js,*.ts,*.tsx CocCommand eslint.executeAutoFix
 
 inoremap <silent><expr> <c-space> coc#refresh()
 
+
 " Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-
+colorscheme base16-onedark
 lua << EOF
 require('Comment').setup()
 EOF
 lua << EOF
+require('telescope').setup{
+  defaults = {
+    mappings = {
+      i = { -- or `n`
+        ["<C-g>"] = require('telescope.actions').select_vertical,
+      },
+    },
+  }
+}
 local function my_on_attach(bufnr)
     local api = require('nvim-tree.api')
 
@@ -65,6 +76,7 @@ local function my_on_attach(bufnr)
     -- your removals and mappings go here
     vim.keymap.set('n', '<C-g>',   api.node.open.vertical,              opts('Open: Vertical Split'))
 end
+require("cutlass").setup {cut_key = "x"}
 require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
   auto_reload_on_write = true,
   disable_netrw = true,
@@ -242,8 +254,7 @@ endfunc
 
 
 syntax enable
-colorscheme base16-solarized-dark
-"let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
 
 nmap <silent> <C-Right> :vertical resize +1<CR>
 nmap <silent> <C-Left> :vertical resize -1<CR>
