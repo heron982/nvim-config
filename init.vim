@@ -44,9 +44,7 @@ call plug#end()
 
 autocmd BufWritePre *.js,*.ts,*.tsx CocCommand eslint.executeAutoFix
 
-<<<<<<< HEAD
 let g:airline#extensions#branch#enabled = 1
-
 
 
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -80,14 +78,12 @@ EOF
 " Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 colorscheme base16-dracula
-=======
 inoremap <silent><expr> <c-space> coc#refresh()
 
 
 " Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 colorscheme base16-onedark
->>>>>>> 3aa2986e9be3e52e2fafe288b446da2b85ea10e4
 lua << EOF
 require('Comment').setup()
 EOF
@@ -242,12 +238,6 @@ require('gitsigns').setup {
     virt_text_priority = 100,
   },
   current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-<<<<<<< HEAD
-=======
-  current_line_blame_formatter_opts = {
-    relative_time = false,
-  },
->>>>>>> 3aa2986e9be3e52e2fafe288b446da2b85ea10e4
   sign_priority = 6,
   update_debounce = 100,
   status_formatter = nil, -- Use default
