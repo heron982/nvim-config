@@ -1,0 +1,13 @@
+{
+  "tsserver.enable": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.format.enable": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "intelephense.files.associations": ["*.php"],
+  "intelephense.environment.includePaths": ["vendor"],
+  "intelephense.telemetry.enabled": false,
+  "suggest.noselect": false,
+  "suggest.enablePreselect": true,
+  "coc.preferences.formatOnSaveFiletypes": ["php"]
+}
