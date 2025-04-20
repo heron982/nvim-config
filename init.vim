@@ -31,6 +31,7 @@ call plug#begin()
  Plug 'chriskempson/base16-vim',
  Plug 'lewis6991/gitsigns.nvim',
  Plug 'vim-airline/vim-airline',
+ Plug 'kyazdani42/nvim-web-devicons',
  Plug 'vim-airline/vim-airline-themes',
  Plug 'numToStr/Comment.nvim',
  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'},
