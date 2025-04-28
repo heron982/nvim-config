@@ -1,5 +1,11 @@
 {
   "tsserver.enable": true,
+  "tsserver.formatOnType": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.suggest.autoImports": true,
+  "eslint.enable": true,
+  "eslint.autoFixOnSave": true,
+  "prettier.enable": true,
   "eslint.autoFixOnSave": true,
   "eslint.format.enable": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -9,5 +15,15 @@
   "intelephense.telemetry.enabled": false,
   "suggest.noselect": false,
   "suggest.enablePreselect": true,
-  "coc.preferences.formatOnSaveFiletypes": ["php"]
+  "coc.preferences.formatOnSaveFiletypes": [
+    "php",
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact",
+    "json"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

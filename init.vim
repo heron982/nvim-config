@@ -33,8 +33,8 @@ call plug#begin()
  Plug 'vim-airline/vim-airline',
  Plug 'kyazdani42/nvim-web-devicons',
  Plug 'vim-airline/vim-airline-themes',
- Plug 'numToStr/Comment.nvim',
- Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'},
+ Plug 'numtostr/comment.nvim',
+ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':tsupdate'},
  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.6' },
  Plug 'ryanoasis/vim-devicons',
  Plug 'mfussenegger/nvim-dap',
@@ -50,15 +50,16 @@ let g:airline#extensions#branch#enabled = 1
 
 inoremap <silent><expr> <c-space> coc#refresh()
 
-
-" Mostrar menu de ações (como rename, format, etc)
+" mostrar menu de ações (como rename, format, etc)
 nmap <leader>a <Plug>(coc-codeaction)
 
-" Ir para definição
-nmap <leader>d <Plug>(coc-definition)
+" ir para definição
+nmap <silent>gd <Plug>(coc-definition)
 
-" Mostrar info de tipo/símbolo
-nmap <leader>h :call CocActionAsync('doHover')<CR>
+" mostrar info de tipo/símbolo
+nmap <leader>h :call CocActionAsync('dohover')<CR>
+
+" abrir buffer de anotação rápida
 
 
 let g:airline_exclude_filetypes = ['NvimTree']
@@ -69,6 +70,7 @@ set fillchars+=horiz:\─
 
 
 lua << EOF
+require("spectre").setup()
 require("indent_blankline").setup {
   char = "│",
   buftype_exclude = {"terminal"},
@@ -94,24 +96,19 @@ require('telescope').setup{
     mappings = {
       i = { -- or `n`
         ["<C-g>"] = require('telescope.actions').select_vertical,
+        ["<C-n>"] = require('telescope.actions').cycle_history_next,
+        ["<C-p>"] = require('telescope.actions').cycle_history_prev,
       },
+    },
+    history = {
+      path = vim.fn.stdpath("data") .. "/telescope_history.sqlite3",
+      limit = 100,
     },
   }
 }
-local function my_on_attach(bufnr)
-    local api = require('nvim-tree.api')
 
-    local function opts(desc)
-      return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-    end
-
-    api.config.mappings.default_on_attach(bufnr)
-
-    -- your removals and mappings go here
-    vim.keymap.set('n', '<C-g>',   api.node.open.vertical,              opts('Open: Vertical Split'))
-end
 require("cutlass").setup {cut_key = "x"}
-require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
+require'nvim-tree'.setup { -- begin_default_opts
   auto_reload_on_write = true,
   disable_netrw = true,
   hijack_cursor = false,
@@ -120,7 +117,6 @@ require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
   open_on_tab = false,
   sort_by = "name",
   update_cwd = false,
-  on_attach = my_on_attach,
   view = {
     width = 30,
     side = "left",
@@ -172,7 +168,7 @@ require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
   },
   git = {
     enable = true,
-    ignore = true,
+    ignore = false,
     timeout = 400,
   },
   actions = {
@@ -221,16 +217,16 @@ require('gitsigns').setup {
     changedelete = { text = '~' },
     untracked    = { text = '┆' },
   },
-  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
-  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  signcolumn = true,  -- toggle with `:gitsigns toggle_signs`
+  numhl      = false, -- toggle with `:gitsigns toggle_numhl`
+  linehl     = false, -- toggle with `:gitsigns toggle_linehl`
+  word_diff  = false, -- toggle with `:gitsigns toggle_word_diff`
   watch_gitdir = {
     follow_files = true
   },
   auto_attach = true,
   attach_to_untracked = false,
-  current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame = true, -- toggle with `:gitsigns toggle_current_line_blame`
   current_line_blame_opts = {
     virt_text = true,
     virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
@@ -238,13 +234,13 @@ require('gitsigns').setup {
     ignore_whitespace = false,
     virt_text_priority = 100,
   },
-  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+  current_line_blame_formatter = '<author>, <author_time:%y-%m-%d> - <summary>',
   sign_priority = 6,
   update_debounce = 100,
-  status_formatter = nil, -- Use default
-  max_file_length = 40000, -- Disable if file is longer than this (in lines)
+  status_formatter = nil, -- use default
+  max_file_length = 40000, -- disable if file is longer than this (in lines)
   preview_config = {
-    -- Options passed to nvim_open_win
+    -- options passed to nvim_open_win
     border = 'single',
     style = 'minimal',
     relative = 'cursor',
@@ -334,11 +330,11 @@ set smartcase
 
 " vimrc
 
-"If 0, do not show the icons for one of 'git' 'folder' and 'files'
+"if 0, do not show the icons for one of 'git' 'folder' and 'files'
 "1 by default, notice that if 'files' is 1, it will only display
 "if nvim-web-devicons is installed and on your runtimepath.
 "if folder is 1, you can also tell folder_arrows 1 to show small arrows next to the folder icons.
-"but this will not work when you set renderer.indent_markers.enable (because of UI conflict)
+"but this will not work when you set renderer.indent_markers.enable (because of ui conflict)
 
 " default will show icon by default if no icon is provided
 " default shows no icon by default
@@ -347,14 +343,14 @@ nmap <leader>e :NvimTreeToggle<CR>
 nmap <leader>o :NvimTreeOpen<CR>
 nmap <leader>r :NvimTreeRefresh<CR>
 nmap <leader>n :NvimTreeFindFile<CR>
-" More available functions:
-" NvimTreeOpen
-" NvimTreeClose
-" NvimTreeFocus
-" NvimTreeFindFileToggle
-" NvimTreeResize
-" NvimTreeCollapse
-" NvimTreeCollapseKeepBuffers
+" more available functions:
+" nvimtreeopen
+" nvimtreeclose
+" nvimtreefocus
+" nvimtreefindfiletoggle
+" nvimtreeresize
+" nvimtreecollapse
+" nvimtreecollapsekeepbuffers
 
 set termguicolors " this variable must be enabled for colors to be applied properly
 
@@ -396,3 +392,4 @@ nnoremap <leader>u+ :lua require'dapui'.toggle()<CR>
 lua << EOF
 require("dapui").setup()
 EOF
+
